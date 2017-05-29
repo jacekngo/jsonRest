@@ -9,6 +9,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import pl.jwrabel.trainings.javandwro3.jsonRest.Point;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -63,6 +64,14 @@ public class UnirestTest {
 
 		// Zapytanie zwracające wszystkich customerów jako JSONA (Stringa)
 		String customersJson = Unirest.get("http://195.181.209.160:8080/api/v1/customers").asString().getBody();
+
+		FileWriter fileWriter = new FileWriter("Customers.json");
+		fileWriter.write(customersJson);
+			fileWriter.flush();
+			fileWriter.close();
+
+
+
 		System.out.println(customersJson);
 
 		// WPIĘCIE JACKSONA W UNIRESTA - umożliwia autmatyczną zamianę JSONów na obiekty w Unireście (i obiektów na JSONy)
@@ -89,15 +98,15 @@ public class UnirestTest {
 
 		// Pobranie jednego klienta (o ID string) i automatyczna zamiana
 		// odpowiedzi serwera (JSONa z klientem) na obiekt klasy Customer
-		Customer returnedCustomer = getCustomer("cfae8f41-e4f1-40a7-8598-db8430908111");
-		System.out.println(returnedCustomer);
+//		Customer returnedCustomer = getCustomer("cfae8f41-e4f1-40a7-8598-db8430908111");
+//		System.out.println(returnedCustomer);
 
 		// Pobranie wszystkich klientów i automatyczna zamiana
 		// odpowiedzi serwera (JSONa z kolekcją klientów) na tablicę obiektów klasy Customer
 		Customer[] customersArray = Unirest.get("http://195.181.209.160:8080/api/v1/customers").asObject(Customer[].class).getBody();
-		for (Customer customer : customersArray) {
-			System.out.println(customer);
-		}
+//		for (Customer customer : customersArray) {
+//			System.out.println(customer);
+//		}
 		// lub
 		Arrays.stream(customersArray).forEach(customer -> System.out.println(customer));
 
